@@ -1,0 +1,42 @@
+{
+  "name": "webu-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "nubewww - elive - curselab",
+  "license": "ISC",
+  "dependencies": {
+    "@writetome51/alphabetize-by-property": "^4.0.0",
+    "array-find": "^1.0.0",
+    "connect-history-api-fallback": "^1.6.0",
+    "cors": "^2.8.5",
+    "date-and-time": "^2.4.0",
+    "dedupe": "^3.0.3",
+    "express": "^4.17.3",
+    "express-fileupload": "^1.3.1",
+    "fs": "^0.0.1-security",
+    "html-pdf-node": "^1.0.8",
+    "html-to-docx": "^1.3.2",
+    "jsonwebtoken": "^8.5.1",
+    "line-reader": "^0.4.0",
+    "lunr": "^2.3.9",
+    "mercadopago": "^1.5.14",
+    "moment": "^2.29.4",
+    "mongodb": "^4.8.1",
+    "morgan": "^1.10.0",
+    "natural-sort-by-key": "^2.1.0",
+    "node-couchdb": "^1.3.0",
+    "nodemailer": "^6.7.8",
+    "path": "^0.12.7",
+    "python-shell": "^3.0.1",
+    "replace-string": "^4.0.0",
+    "search-array": "^1.6.0",
+    "striptags": "^3.2.0",
+    "tree-util": "^1.0.7",
+    "uuid": "^8.3.2"
+  }
+}
