@@ -10,7 +10,7 @@ const customers = require('./users.js');
 //
 //
 let validate = (idUser, idOwnerDoc, idDocument) => {
-     console.log('function  base', idUser,idOwnerDoc,idDocument)
+    console.log('function  base', idUser, idOwnerDoc, idDocument)
     return new Promise((resolve, reject) => {
         customers.getById(database.ObjectID(idUser).toString()).then((data) => {
             console.log('function 1', data)
@@ -33,10 +33,10 @@ let validate = (idUser, idOwnerDoc, idDocument) => {
                     customers.update(data._id, data.data).then((data) => {
                         console.log('function 4', data)
                         resolve(data);
-                    }).catch((err) => {})
-                }).catch((err) => {})
-            }).catch((err) => {})
-        }).catch((err) => {})
+                    }).catch((err) => { })
+                }).catch((err) => { })
+            }).catch((err) => { })
+        }).catch((err) => { })
     })
 }
 let create = (user, data) => {
@@ -44,7 +44,7 @@ let create = (user, data) => {
     return new Promise((resolve, reject) => {
         db.collection(collectionName).insertOne({
             data: data
-        }, function(err, result) {
+        }, function (err, result) {
             if (err) {
                 resolve(reject)
             } else {
@@ -61,7 +61,7 @@ let update = (id, data) => {
             $set: {
                 "data": data
             }
-        }, function(err, result) {
+        }, function (err, result) {
             if (err) {
                 resolve(reject)
             } else {
@@ -76,7 +76,7 @@ let getAllBestDocuments = () => {
             "data.type": "document"
         }).sort({
             "data.cout_validate": -1
-        }).limit(20).toArray(function(err, result) {
+        }).limit(20).toArray(function (err, result) {
             if (err) {
                 resolve(reject)
             } else {
@@ -91,7 +91,7 @@ let getAllBestWritings = () => {
             "data.type": "writing"
         }).sort({
             "data.cout_validate": -1
-        }).limit(20).toArray(function(err, result) {
+        }).limit(20).toArray(function (err, result) {
             if (err) {
                 resolve(reject)
             } else {
@@ -104,7 +104,7 @@ let getAllDocuments = () => {
     return new Promise((resolve, reject) => {
         db.collection(collectionName).find({
             "data.type": "documents"
-        }).limit(500).toArray(function(err, result) {
+        }).limit(500).toArray(function (err, result) {
             if (err) {
                 resolve(reject)
             } else {
@@ -117,7 +117,7 @@ let getAllWritings = () => {
     return new Promise((resolve, reject) => {
         db.collection(collectionName).find({
             "data.type": "writing"
-        }).limit(500).toArray(function(err, result) {
+        }).limit(500).toArray(function (err, result) {
             if (err) {
                 resolve(reject)
             } else {
@@ -130,7 +130,7 @@ let getAllFeatured = () => {
     return new Promise((resolve, reject) => {
         db.collection(collectionName).find({
             'data.featured': true
-        }).limit(500).toArray(function(err, result) {
+        }).limit(500).toArray(function (err, result) {
             if (err) {
                 resolve(reject)
             } else {
@@ -143,7 +143,7 @@ let getById = (id) => {
     return new Promise((resolve, reject) => {
         db.collection(collectionName).findOne({
             _id: database.ObjectID(id)
-        }).then(function(doc) {
+        }).then(function (doc) {
             if (doc) {
                 resolve(doc)
             } else {
@@ -159,7 +159,7 @@ let searchTextDocuments = (target) => {
             $text: {
                 $search: target
             }
-        }).sort({score:{$meta:"textScore"}}).toArray(function(err, result) {
+        }).sort({ score: { $meta: "textScore" } }).toArray(function (err, result) {
             if (err) {
                 resolve(err)
             } else {
@@ -181,7 +181,7 @@ let searchTextWritings = (target) => {
             $text: {
                 $search: target
             }
-        }).sort({score:{$meta:"textScore"}}).toArray(function(err, result) {
+        }).sort({ score: { $meta: "textScore" } }).toArray(function (err, result) {
             if (err) {
                 resolve(err)
             } else {
@@ -196,7 +196,7 @@ let searchTextCompleteWritings = (target = null, folders = [], tags = []) => {
         "data.type": "writing",
         "$or": []
     };
-    if (target == null || target == undefined || target == '' || target == ' ') {} else {
+    if (target == null || target == undefined || target == '' || target == ' ') { } else {
         query["$or"].push({
             '$text': {
                 "$search": target
@@ -225,8 +225,8 @@ let searchTextCompleteWritings = (target = null, folders = [], tags = []) => {
         }
     }
     return new Promise((resolve, reject) => {
-        console.log('query search searchTextCompleteDocuments' , query)
-        db.collection(collectionName).find(query).sort({score:{$meta:"textScore"}}).toArray(function(err, result) { 
+        console.log('query search searchTextCompleteDocuments', query)
+        db.collection(collectionName).find(query).sort({ score: { $meta: "textScore" } }).toArray(function (err, result) {
             if (err) {
                 resolve(err)
             } else {
@@ -240,7 +240,7 @@ let searchTextCompleteDocuments = (target = null, folders = [], tags = []) => {
         "data.type": "document",
         "$or": []
     };
-    if (target == null || target == undefined || target == '' || target == ' ') {} else {
+    if (target == null || target == undefined || target == '' || target == ' ') { } else {
         query["$or"].push({
             '$text': {
                 "$search": target
@@ -269,8 +269,8 @@ let searchTextCompleteDocuments = (target = null, folders = [], tags = []) => {
         }
     }
     return new Promise((resolve, reject) => {
-        console.log('query search searchTextCompleteDocuments' , query)
-        db.collection(collectionName).find(query).sort({score:{$meta:"textScore"}}).toArray(function(err, result) { 
+        console.log('query search searchTextCompleteDocuments', query)
+        db.collection(collectionName).find(query).sort({ score: { $meta: "textScore" } }).toArray(function (err, result) {
             if (err) {
                 resolve(err)
             } else {
@@ -316,7 +316,7 @@ let deleteById = (id) => {
     return new Promise((resolve, reject) => {
         db.collection(collectionName).deleteOne({
             _id: database.ObjectID(id)
-        }, function(err, result) {
+        }, function (err, result) {
             if (err) {
                 resolve(reject)
             } else {

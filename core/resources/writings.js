@@ -20,7 +20,7 @@ let update = (id, data) => {
             $set: {
                 "data": data
             }
-        }, function(err, result) {
+        }, function (err, result) {
             if (err) {
                 resolve(reject)
             } else {
@@ -30,13 +30,13 @@ let update = (id, data) => {
     })
 }
 
- 
+
 
 
 let updateContent = (id, user, data) => {
     return new Promise((resolve, reject) => {
         getById(user, id).then((updateData) => {
-            updateData.data.content = data.content; 
+            updateData.data.content = data.content;
             console.log('edit', data);
             db.collection(collectionName).updateOne({
                 _id: database.ObjectID(id)
@@ -44,7 +44,7 @@ let updateContent = (id, user, data) => {
                 $set: {
                     "data": updateData.data
                 }
-            }, function(err, result) {
+            }, function (err, result) {
                 if (err) {
                     resolve(reject)
                 } else {
@@ -67,7 +67,7 @@ let updateTitleDescription = (id, user, data) => {
                 $set: {
                     "data": updateData.data
                 }
-            }, function(err, result) {
+            }, function (err, result) {
                 if (err) {
                     resolve(reject)
                 } else {
@@ -97,12 +97,12 @@ let updateSharedWith = (documentId, userId) => {
 }
 
 let createCustom = (user, data) => {
-     data.idUser = user;
+    data.idUser = user;
     return new Promise((resolve, reject) => {
         db.collection(collectionName).insertOne({
             data: data
-        }, function(err, result) {
-    	console.log('createCustom result',result)
+        }, function (err, result) {
+            console.log('createCustom result', result)
             if (err) {
                 resolve(err)
             } else {
@@ -125,15 +125,15 @@ let create = (user, data) => {
                 categories: [],
                 tags: [],
                 attachment: [],
-                validate: data.validate, 
+                validate: data.validate,
                 cout_validate: data.cout_validate,
                 share: data.share,
-                complete : data.validate, 
-                form_complete : data.form_complete,
-                version : data.version,
+                complete: data.validate,
+                form_complete: data.form_complete,
+                version: data.version,
                 shared_with: []
-            } 
-        }, function(err, result) {
+            }
+        }, function (err, result) {
             if (err) {
                 resolve(reject)
             } else {
@@ -153,7 +153,7 @@ let getAllByTags = (user, tags) => {
         db.collection(collectionName).find({
             "data.idUser": user,
             "$or": tmp
-        }).sort({ "_id": -1 }).limit(500).toArray(function(err, result) {
+        }).sort({ "_id": -1 }).limit(500).toArray(function (err, result) {
             if (err) {
                 resolve(err)
             } else {
@@ -169,7 +169,7 @@ let getAllDocuments = (user) => {
     return new Promise((resolve, reject) => {
         db.collection(collectionName).find({
             "data.idUser": user
-        }).sort({ "_id": -1 }).limit(500).toArray(function(err, result) {
+        }).sort({ "_id": -1 }).limit(500).toArray(function (err, result) {
             if (err) {
                 resolve(err)
             } else {
@@ -183,7 +183,7 @@ let getAllDocumentsSharedWithMe = (user) => {
     return new Promise((resolve, reject) => {
         db.collection(collectionName).find({
             "data.shared_with": user
-        }).toArray(function(err, result) {
+        }).toArray(function (err, result) {
             if (err) {
                 resolve(err)
             } else {
@@ -191,13 +191,13 @@ let getAllDocumentsSharedWithMe = (user) => {
             }
         })
     })
-}    
+}
 
 let getAllDocumentsByObject = (user) => {
     return new Promise((resolve, reject) => {
         db.collection(collectionName).find({
             "data.idUser": user
-        }).sort({ "_id": -1 }).limit(500).toArray(function(err, result) {
+        }).sort({ "_id": -1 }).limit(500).toArray(function (err, result) {
             console.log('result', result)
             if (err) {
                 resolve(err)
@@ -212,7 +212,7 @@ let getById = (user, id) => {
         db.collection(collectionName).findOne({
             _id: database.ObjectID(id),
             "data.idUser": user
-        }).then(function(doc) {
+        }).then(function (doc) {
             if (doc) {
                 resolve(doc)
             } else {
@@ -238,7 +238,7 @@ let searchText = (user, target) => {
             score: {
                 $meta: "textScore"
             }
-        }).toArray(function(err, result) {
+        }).toArray(function (err, result) {
             if (err) {
                 resolve(err)
             } else {
@@ -286,7 +286,7 @@ let createFolder = (user, data) => {
                 },
                 text: data.text,
             }
-        }, function(err, result) {
+        }, function (err, result) {
             if (err) {
                 resolve(reject)
             } else {
@@ -301,7 +301,7 @@ let getAllFoldersRoot = (user) => {
             // "data.idUser": database.ObjectID(user).toString(),
             "data.idUser": database.ObjectID(user),
             "data.parent": null
-        }).sort({ "_id": -1 }).limit(500).toArray(function(err, result) {
+        }).sort({ "_id": -1 }).limit(500).toArray(function (err, result) {
             console.log('allfolderrot--', err, result)
             if (err) {
                 resolve(err)
@@ -317,7 +317,7 @@ let getAllFoldersChild = (user, parent) => {
             // "data.idUser": database.ObjectID(user).toString(),
             "data.idUser": database.ObjectID(user),
             "data.parent": parent
-        }).sort({ "_id": -1 }).limit(500).toArray(function(err, result) {
+        }).sort({ "_id": -1 }).limit(500).toArray(function (err, result) {
             if (err) {
                 resolve(err)
             } else {
@@ -336,7 +336,7 @@ let saveFolderOrganization = (id, user, data) => {
                 $set: {
                     "data": updateData.data
                 }
-            }, function(err, result) {
+            }, function (err, result) {
                 if (err) {
                     resolve(err)
                 } else {
@@ -355,7 +355,7 @@ let getAllDocumentsByFolder = (user, folder) => {
         db.collection(collectionName).find({
             "data.idUser": user,
             "data.categories.id": folder,
-        }).sort({ "_id": -1 }).limit(500).toArray(function(err, result) {
+        }).sort({ "_id": -1 }).limit(500).toArray(function (err, result) {
             console.log('GETALLL', result)
             if (err) {
                 resolve(err)
@@ -371,7 +371,7 @@ let deleteById = (id) => {
     return new Promise((resolve, reject) => {
         db.collection(collectionName).deleteOne({
             _id: database.ObjectID(id)
-        }, function(err, result) {
+        }, function (err, result) {
             if (err) {
                 resolve(reject)
             } else {
@@ -387,7 +387,7 @@ let deleteByIdFolder = (id) => {
     return new Promise((resolve, reject) => {
         db.collection(collectionNameFolder).deleteOne({
             _id: database.ObjectID(id)
-        }, function(err, result) {
+        }, function (err, result) {
             if (err) {
                 resolve(reject)
             } else {
@@ -396,7 +396,7 @@ let deleteByIdFolder = (id) => {
         });
     })
 }
- 
+
 
 // let createFolder = (user, parent = null) => {
 //     return new Promise((resolve, reject) => {
