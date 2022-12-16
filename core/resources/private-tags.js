@@ -4,8 +4,8 @@ const collectionName = 'private-tags';
 
 let create = (data) => {
   return new Promise((resolve, reject) => {
-    findTag(data.createdBy, data.name, data.type).then(tags => {
-      if (!tags.length) {
+    findTag(data.createdBy, data.name, data.type).then(tag => {
+      if (!tag) {
         db.collection(collectionName).insertOne({
           data
         }, function (err, result) {
@@ -19,7 +19,7 @@ let create = (data) => {
           }
         });
       } else {
-        resolve(tags[0])
+        resolve(tag)
       }
     })
   })
@@ -50,7 +50,7 @@ const findTag = (id, name, type) => {
       if (err) {
         resolve(err)
       } else {
-        resolve(result)
+        resolve(result[0])
       }
     })
   })
