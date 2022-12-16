@@ -4,19 +4,22 @@ const collectionName = 'private-tags';
 
 let create = (data) => {
   return new Promise((resolve, reject) => {
-    findTag(data.createdBy, data.name, data.type).then(data => {
-      if (!data) {
+    findTag(data.createdBy, data.name, data.type).then(tags => {
+      if (!tags.length) {
         db.collection(collectionName).insertOne({
           data
         }, function (err, result) {
           if (err) {
-            resolve(reject)
+            resolve(err)
           } else {
-            resolve(result)
+            resolve({
+              _id: result.insertedId,
+              data
+            })
           }
         });
       } else {
-        resolve(data)
+        resolve(tags[0])
       }
     })
   })
@@ -27,11 +30,11 @@ const findTags = (id, type) => {
     db.collection(collectionName).find({
       "data.createdBy": id,
       "data.type": type
-    }).then((tag) => {
-      if (tag) {
-        resolve(tag)
+    }).toArray((err, result) => {
+      if (err) {
+        resolve(err)
       } else {
-        resolve(null)
+        resolve(result)
       }
     })
   })

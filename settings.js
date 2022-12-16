@@ -12,12 +12,12 @@ exports.secure = {
         }
     },
     mongodb: {
-        host: 'webulegal.com',
+        host: '127.0.0.1',
         port: '27017',
         auth: {
-            username: 'webu',
-            password: '43119739Ramiro'
-        }
+             username: 'admin',
+             password: 'admin'
+         }
     },
     py: {
         scriptPath: '../../',
