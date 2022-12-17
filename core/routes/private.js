@@ -49,13 +49,15 @@ class Endpoint {
     });
     this.app.post('/api/private/save/tags/organize', function (req, res) {
       users.getByAuth(req.body.auth).then((data) => {
-        privateTags.addDocuments(
-          data._id,
-          req.body.data.name,
-          req.body.data.type,
-          req.body.data.documentId
-        ).then((data) => {
-          res.send(data);
+        Promise.all(req.body.data.name.forEach(name => {
+          privateTags.addDocuments(
+            data._id,
+            name,
+            req.body.data.type,
+            req.body.data.documentId
+          )
+        })).then(() => {
+          res.send(true);
         }).catch((err) => {
           res.send(err);
         });
