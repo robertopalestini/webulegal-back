@@ -68,14 +68,14 @@ const addDocuments = (id, name, type, documentId) => {
         $push: {
           "data.documents": documentId
         }
+      },function (err, result) {
+        if (err) {
+          resolve(err)
+        } else {
+          resolve(result)
+        }
       }
-    ).toArray(function (err, result) {
-      if (err) {
-        resolve(err)
-      } else {
-        resolve(result)
-      }
-    })
+    )
   })
 }
 
