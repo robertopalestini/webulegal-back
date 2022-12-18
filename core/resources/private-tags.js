@@ -1,4 +1,6 @@
 const database = require('../../services/mongodb.js');
+const library = require('./library')
+const writing = require('./writings')
 const db = database.getDb();
 const collectionName = 'private-tags';
 
@@ -65,7 +67,7 @@ const addDocuments = (id, name, type, documentId) => {
         "data.type": type
       },
       {
-        $push: {
+        $addToSet: {
           "data.documents": documentId
         }
       },function (err, result) {
@@ -79,9 +81,45 @@ const addDocuments = (id, name, type, documentId) => {
   })
 }
 
+const searchDocuments = (id, name, type) => {
+  return new Promise((resolve, reject) => {
+    const nameFilter = name.map(el => ({
+      "data.name": el
+    }))
+    db.collection(collectionName).find({
+      "data.createdBy": id,
+      "data.type": type,
+      $or: nameFilter
+    }, { "data.documents": 1, _id: 0 }).toArray((err, res) => {
+      if(err) {
+        resolve(err)
+      } else {
+        const data = []
+        res.forEach(el => {
+          data.push(
+            ...el.data.documents
+          )
+        })
+        Promise.all(data.map(docId => {
+          switch (type) {
+            case 'library':
+              return library.getById(id, docId, false)
+            case 'shared':
+              return writing.getById(id, docId, true)
+            default:
+              return writing.getById(id, docId, false)
+            }
+        })).then((data) => resolve(data))
+          .catch(error => resolve(error))
+      }
+    })
+  })
+}
+
 module.exports = {
   create,
   findTags,
   findTag,
-  addDocuments
+  addDocuments,
+  searchDocuments
 }

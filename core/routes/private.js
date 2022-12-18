@@ -63,6 +63,19 @@ class Endpoint {
         });
       })
     });
+    this.app.post('/api/private/get/tags/documents', function (req, res) {
+      users.getByAuth(req.body.auth).then((data) => {
+        privateTags.searchDocuments(
+          data._id,
+          req.body.data.name,
+          req.body.data.type,
+        ).then((data) => {
+          res.send(data);
+        }).catch((err) => {
+          res.send(err);
+        });
+      });
+    })
   }
   start() {
     this.private()

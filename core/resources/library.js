@@ -162,12 +162,17 @@ let getAllDocumentsByObject = (user) => {
         });
     })
 }
-let getById = (user, id) => {
+let getById = (user, id, shared = false) => {
     return new Promise((resolve, reject) => {
-        db.collection(collectionName).findOne({
+        const where = {
             _id: database.ObjectID(id),
-            "data.idUser": user
-        }).then(function(doc) {
+        }
+        if (!shared) {
+            where['data.idUser'] = user
+        } else {
+            where['data.shared_with'] = user
+        }
+        db.collection(collectionName).findOne(where).then(function(doc) {
             if (doc) {
                 resolve(doc)
             } else {
