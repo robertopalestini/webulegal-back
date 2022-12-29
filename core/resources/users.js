@@ -322,6 +322,7 @@ let sendTokenLostPassword = (email) => {
 };
 
 
+
 let compartirPrivado = (email, documentId, firstName, lastName) => {
   return new Promise((resolve, reject) => {
     console.log(firstName)
